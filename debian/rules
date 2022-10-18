@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+export PYBUILD_NAME=python-pytest-flake8
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+# Disable tests during build time because they're too complex to run.
+# Instead, let's just use autopkgtest.
+override_dh_auto_test:

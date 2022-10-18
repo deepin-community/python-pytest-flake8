@@ -1,0 +1,24 @@
+Source: python-pytest-flake8
+Section: python
+Priority: optional
+Maintainer: Debian Python Team <team+python@tracker.debian.org>
+Uploaders: Sergio Durigan Junior <sergiodj@debian.org>
+Build-Depends: debhelper-compat (= 13),
+	       dh-python,
+	       python3-setuptools,
+	       python3-all,
+Standards-Version: 4.5.0
+Homepage: https://github.com/tholo/pytest-flake8
+Vcs-Browser: https://salsa.debian.org/python-team/packages/python-pytest-flake8
+Vcs-Git: https://salsa.debian.org/python-team/packages/python-pytest-flake8.git
+Rules-Requires-Root: no
+
+Package: python3-pytest-flake8
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}
+Description: Pytest plugin for check flake8 requirements (Python 3)
+ python-pytest-flake8 is a pytest plugin used to check flake8
+ requirements.  After installing it, you can run pytest using the
+ "--flake8" option.
+ .
+ This package installs the library for Python 3.

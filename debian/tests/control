@@ -1,0 +1,4 @@
+Tests: upstream
+Depends: @,
+	 python3-pytest,
+	 python3-flake8,

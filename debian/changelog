@@ -1,0 +1,22 @@
+python-pytest-flake8 (1.0.6-3) unstable; urgency=medium
+
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+
+ -- Debian Janitor <janitor@jelmer.uk>  Sat, 21 Aug 2021 13:50:56 +0100
+
+python-pytest-flake8 (1.0.6-2) unstable; urgency=medium
+
+  * d/control: Update Vcs-* to reflect DPMT/PAPT merge.
+    The Debian Python Team has recently merged DPMT and PAPT into a single
+    project, which means the git clone/browse URLs need to be updated.
+  * d/control: Update Maintainer field with new Python Team address.
+  * Source-only upload to make the package migrate.
+
+ -- Sergio Durigan Junior <sergiodj@debian.org>  Sun, 27 Sep 2020 11:35:35 -0400
+
+python-pytest-flake8 (1.0.6-1) unstable; urgency=medium
+
+  * Initial release (Closes: #894786).
+
+ -- Sergio Durigan Junior <sergiodj@debian.org>  Sun, 06 Sep 2020 17:05:20 -0400
