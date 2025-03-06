@@ -5,13 +5,17 @@ Maintainer: Debian Python Team <team+python@tracker.debian.org>
 Uploaders: Sergio Durigan Junior <sergiodj@debian.org>
 Build-Depends: debhelper-compat (= 13),
 	       dh-python,
+	       python3-flake8 (>= 7.0.0),
+	       python3-pytest <!nocheck>,
+	       python3-py <!nocheck>,
 	       python3-setuptools,
 	       python3-all,
-Standards-Version: 4.5.0
+Standards-Version: 4.7.0
 Homepage: https://github.com/tholo/pytest-flake8
 Vcs-Browser: https://salsa.debian.org/python-team/packages/python-pytest-flake8
 Vcs-Git: https://salsa.debian.org/python-team/packages/python-pytest-flake8.git
 Rules-Requires-Root: no
+Testsuite: autopkgtest-pkg-pybuild
 
 Package: python3-pytest-flake8
 Architecture: all

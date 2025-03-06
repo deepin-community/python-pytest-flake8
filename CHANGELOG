@@ -1,3 +1,25 @@
+1.1.1
+-----
+
+- Update classifiers to indicate older versions are no longer supported
+- No longer use deprecated pytest constructs
+- Bump requirements to more accurately indicate what is currently needed
+
+1.1.0
+-----
+
+- Drop Python 2 support and dependency on py; from @erikkemperman
+- Drop support for Python 3.5, 3.6
+- Stop testing on Python versions prior to 3.7
+- Add a `flake8-max-doc-length` option; from @rodrigomologni
+- Fix some minor typos; from @kianmeng
+
+1.0.7
+-----
+
+- Implement collect() for Flake8Item; from @thomascobb
+- Document skipping behavior in README; from @jpyams
+
 1.0.6
 -----
 
@@ -27,7 +49,7 @@
 -----
 
 - Test on Python 3.7
-- Escape a regex tring with r""
+- Escape a regex string with r""
 
 1.0.1
 -----

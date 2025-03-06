@@ -54,13 +54,15 @@ flake8.
 Configuring FLAKE8 options per project and file
 -----------------------------------------------
 
-Maximum line length can be configured for the whole project
-by adding a ``flake8-max-line-length`` option to your ``setup.cfg``
-or ``tox.ini`` file like this::
+Maximum line length and maximum doc line length can be configured for the
+whole project by adding a ``flake8-max-line-length`` option and
+``flake8-max-doc-length`` to your ``setup.cfg`` or ``tox.ini`` file like
+this::
 
     # content of setup.cfg
-    [pytest]
+    [tool:pytest]
     flake8-max-line-length = 99
+    flake8-max-doc-length = 74
 
 Note that the default will be what naturally comes with `flake8`_
 (which it turn gets its default from `pycodestyle`_).
@@ -70,7 +72,7 @@ by adding an ``flake8-ignore`` entry to your ``setup.cfg``
 or ``tox.ini`` file like this::
 
     # content of setup.cfg
-    [pytest]
+    [tool:pytest]
     flake8-ignore = E201 E231
 
 This would globally prevent complaints about two whitespace issues.
@@ -86,7 +88,7 @@ some errors or warnings you can start a flake8-ignore line with
 a glob-pattern and a space-separated list of codes::
 
     # content of setup.cfg
-    [pytest]
+    [tool:pytest]
     flake8-ignore = 
         *.py E201
         doc/conf.py ALL
@@ -98,7 +100,7 @@ So if you have a conf.py like this::
     func (  [1,2,3]) #this line lots PEP8 errors :)
 
 then running again with the previous example will show a single
-failure and it will ignore doc/conf.py alltogether::
+failure and it will ignore doc/conf.py altogether::
 
     $ pytest --flake8 -v # verbose shows what is ignored
     ======================================= test session starts ========================================
@@ -113,6 +115,16 @@ failure and it will ignore doc/conf.py alltogether::
     ========================================= 1 passed in 0.00 seconds =========================================
 
 Note that doc/conf.py was not considered or imported.
+
+FAQs
+-----
+
+All the flake8 tests are skipping!
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is by design.  Clean flake8 results are cached and, unless the file is modified, not tested again.
+
+You can run with ``pytest --cache-clear --flake8`` to override this.
 
 Notes
 -----

@@ -1,0 +1,89 @@
+Description: Patch to work with flake8 7.x series
+ Upstream is known to be broken with new flake8 versions:
+ https://github.com/tholo/pytest-flake8/pull/96. Patch is part of the
+ discussion in the PR but upstream does not seem very responsive.
+Author: clalancette@intrinsic.ai
+Reviewed-by: jrivero@osrfoundation.org
+Bug: https://github.com/tholo/pytest-flake8/pull/96#issuecomment-2032433686
+Origin: https://github.com/clalancette/pytest-flake8/commits/modern-flake8/
+Last-Update: 2024-04-02
+
+diff --git a/pytest_flake8.py b/pytest_flake8.py
+index 2555f8a..254b8b5 100644
+--- a/pytest_flake8.py
++++ b/pytest_flake8.py
+@@ -6,7 +6,7 @@
+ from io import BytesIO, TextIOWrapper
+ 
+ from flake8.main import application
+-from flake8.options import config
++from flake8.options.parse_args import parse_args
+ 
+ import pytest
+ 
+@@ -213,22 +213,14 @@ def check_file(path, flake8ignore, maxlength, maxdoclenght, maxcomplexity,
+     if statistics:
+         args += ['--statistics']
+     app = application.Application()
+-    prelim_opts, remaining_args = app.parse_preliminary_options(args)
+-    config_finder = config.ConfigFileFinder(
+-        app.program,
+-        prelim_opts.append_config,
+-        config_file=prelim_opts.config,
+-        ignore_config_files=prelim_opts.isolated,
+-    )
+-    app.find_plugins(config_finder)
+-    app.register_plugin_options()
+-    app.parse_configuration_and_cli(config_finder, remaining_args)
++    app.plugins, app.options = parse_args(args)
+     if flake8ignore:
+         app.options.ignore = flake8ignore
+     app.make_formatter()  # fix this
+     app.make_guide()
+-    app.make_file_checker_manager()
+-    app.run_checks([str(path)])
++    app.make_file_checker_manager([])
++    app.options.filenames = [str(path)]
++    app.run_checks()
+     app.formatter.start()
+     app.report_errors()
+     app.formatter.stop()
+diff --git a/test_flake8.py b/test_flake8.py
+index 0bc2461..e70860f 100644
+--- a/test_flake8.py
++++ b/test_flake8.py
+@@ -2,7 +2,6 @@
+ """Unit tests for flake8 pytest plugin."""
+ from __future__ import print_function
+ 
+-import py
+ import pytest
+ 
+ pytest_plugins = "pytester",
+@@ -44,8 +43,8 @@ def test_default_flake8_ignores(self, testdir):
+ 
+             [flake8]
+             ignore = E203
+-                *.py E300
+-                tests/*.py ALL E203  # something
++                E300
++                ALL E203
+         """)
+         testdir.tmpdir.ensure("xy.py")
+         testdir.tmpdir.ensure("tests/hello.py")
+@@ -164,13 +163,13 @@ def test_unicode_error(testdir):
+     x = testdir.tmpdir.join("x.py")
+     import codecs
+     f = codecs.open(str(x), "w", encoding="utf8")
+-    f.write(py.builtin._totext("""
++    f.write("""
+ # coding=utf8
+ 
+ accent_map = {
+     u'\\xc0': 'a',  # À -> a  non-ascii comment crashes it
+ }
+-""", "utf8"))
++""")
+     f.close()
+     # result = testdir.runpytest("--flake8", x, "-s")
+     # result.stdout.fnmatch_lines("*non-ascii comment*")
